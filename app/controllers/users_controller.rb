@@ -13,12 +13,25 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
+    print('---------------')
+    print(@user.id)
+    print('---------------')
+    print(current_user.id)
+    print('-----------------')
+    unless @user.id == current_user.id
+      print(22222222)
+      redirect_to user_path(current_user)
+    end
   end
   
   def update
-    user = User.find(params[:id])
-    user.update(user_params)
-    redirect_to user_path(user.id)
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to user_path(@user.id), notice: "You have updated user successfully."
+    else
+      render :edit
+    end
+    
   end
   
   private
